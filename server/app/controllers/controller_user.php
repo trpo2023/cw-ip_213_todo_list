@@ -7,8 +7,8 @@ class Controller_User extends Controller
         $this->model = new Model_User;
     }
 
-    function action_list()
+    function action_register()
     {
-        $this->model->getList();
+        $this->model->register();
     }
 }
