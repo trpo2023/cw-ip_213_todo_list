@@ -4,6 +4,7 @@ include 'app/models/model_database.php';
 class Model_User extends Model
 {
     private $status;
+    private $error;
     public function __construct(Type $var = null) {
         $this->db = new Database();
     }
@@ -13,6 +14,7 @@ class Model_User extends Model
         echo json_encode(
             [
                 "status" => $this->status,
+                "error" => $this->error ?: 'no',
             ]
         );
         die();
@@ -25,7 +27,8 @@ class Model_User extends Model
         $this->db->bind(':login', $login);
         $row = $this->db->single();
         if($row){
-            $this->status = "error, user already exists";
+            $this->status = "error";
+            $this->error = "user already exists";
             $this->showResult();
         }
         else
@@ -46,4 +49,9 @@ class Model_User extends Model
         $result == 1 ? $this->status = "success" : $this->status = "error";
         $this->showResult();
     }
+
+    function login(){
+
+    }
+
 }
