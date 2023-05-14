@@ -14,6 +14,7 @@ function init(){
 }
 function check_data(){
     if(err.textContent != null){
+        console.log(err.textContent)
         $(".login-card-error").hide()
     }
     if(login.length < 5 ){
@@ -45,21 +46,23 @@ button.addEventListener("submit",function (event){
         }
         $.ajax({
             // Изменить путь и настроить передаваемые данные
-            url: '../server/user/register',
+            url: 'C:\\MAMP\\htdocs',
             type: 'POST',
             dataType: 'json',
             data: {
                 login: login,
                 password : pass_1,
+                type : "register",
+                remember_me : remember_me
             }, success: function(data){
                 try {
-                    var output = data;
+                    var output = JSON.parse(data);
                     console.log(output);
                 } catch (e) {
-                    console.log("Output is not valid JSON: " + data);
+                    alert("Output is not valid JSON: " + data);
                 }
              },error: function(XMLHttpRequest, textStatus, errorThrown) {
-                 console.log("Status: " + textStatus); console.log("Error: " + errorThrown);
+                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
             }
         });
         return false
