@@ -46,23 +46,21 @@ button.addEventListener("submit",function (event){
         }
         $.ajax({
             // Изменить путь и настроить передаваемые данные
-            url: 'C:\\MAMP\\htdocs',
+            url: '../server/user/register',
             type: 'POST',
             dataType: 'json',
             data: {
                 login: login,
                 password : pass_1,
-                type : "register",
-                remember_me : remember_me
             }, success: function(data){
                 try {
                     var output = JSON.parse(data);
                     console.log(output);
                 } catch (e) {
-                    alert("Output is not valid JSON: " + data);
+                    console.log("Output is not valid JSON: " + data);
                 }
              },error: function(XMLHttpRequest, textStatus, errorThrown) {
-                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                 console.log("Status: " + textStatus); console.log("Error: " + errorThrown);
             }
         });
         return false
