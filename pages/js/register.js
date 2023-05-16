@@ -13,7 +13,7 @@ function init(){
     err = document.querySelector(".login-card-error")
 }
 function check_data(){
-    if(err.textContent != null){
+    if(err.textContent != ""){
         console.log(err.textContent)
         $(".login-card-error").hide()
     }
