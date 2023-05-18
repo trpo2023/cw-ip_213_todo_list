@@ -21,7 +21,7 @@ button.addEventListener("submit",function (event){
                 password : pass,
             }, success: function(data){
                 try {
-                    console.log(data);
+                    localStorage.setItem('id', data.id)
                     window.location.replace("../pages/todo.html");
                 } catch (e) {
                     console.log("Account doesn't exist");

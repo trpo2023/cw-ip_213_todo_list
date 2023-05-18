@@ -8,9 +8,12 @@ class Model_Task extends Model
     }
 
     function initial_tasks(){ 
+        $user_id = $_POST["id"];
         $this->db->query("SELECT * FROM `user_task` JOIN tasks ON user_task.id_task = tasks.id WHERE user_task.id_user = :id;");
         $this->db->bind(':id',  $user_id);
-        $result = $this->db->execute();
+        $result = $this->db->resultset();
+        echo json_encode($result);
+        die();
     }
 
     function action_add(){

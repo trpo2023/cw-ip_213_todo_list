@@ -69,7 +69,7 @@ class Model_User extends Model
         $this->db->bind(':password', $password);
         $row = $this->db->single();
         if($row){
-            $this->id = $row["id"];
+             $this->id = $row["id"];
             $this->status = "success";
             $this->showResult(); 
         }
