@@ -21,16 +21,15 @@ button.addEventListener("submit",function (event){
                 password : pass,
             }, success: function(data){
                 try {
+                    console.log(data);
                     window.location.replace("../pages/todo.html");
                 } catch (e) {
-                    console.log("Account don't exist");
+                    console.log("Account doesn't exist");
                 }
              },error: function(XMLHttpRequest, textStatus, errorThrown) {
                  console.log("Status: " + textStatus); console.log("Error: " + errorThrown);
             }
         });
         return false
-
-
 })
 

@@ -5,6 +5,7 @@ class Model_User extends Model
 {
     private $status;
     private $error;
+    private $id;
     public function __construct(Type $var = null) {
         $this->db = new Database();
     }
@@ -15,6 +16,7 @@ class Model_User extends Model
             [
                 "status" => $this->status,
                 "error" => $this->error ?: 'no',
+                "id" => $this->id,
             ]
         );
         die();
@@ -46,7 +48,15 @@ class Model_User extends Model
         $this->db->bind(':login', $valLogin);
         $this->db->bind(':password', $password);
         $result = $this->db->execute();
-        $result == 1 ? $this->status = "success" : $this->status = "error";
+        if ($result == 1) {
+            $this->status = "success";
+            $this->db->query("SELECT id from users WHERE login = :login");
+            $this->db->bind(':login', $valLogin);
+            $row = $this->db->single(); 
+            $this->id = $row["id"];
+        } else {
+            $this->status = "error";  
+        }
         $this->showResult();
     }
 
@@ -59,6 +69,7 @@ class Model_User extends Model
         $this->db->bind(':password', $password);
         $row = $this->db->single();
         if($row){
+            $this->id = $row["id"];
             $this->status = "success";
             $this->showResult(); 
         }
