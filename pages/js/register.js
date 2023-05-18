@@ -53,6 +53,7 @@ button.addEventListener("submit",function (event){
                 password : pass_1,
             }, success: function(data){
                 try {
+                    console.log(data);
                     window.location.replace("../pages/todo.html");
                 } catch (e) {
                     alert("User already exist.");
