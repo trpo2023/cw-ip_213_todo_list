@@ -57,9 +57,11 @@ class Model_User extends Model
         $this->db->query("SELECT id from users WHERE login = :login and password = :password");
         $this->db->bind(':login', $login);
         $this->db->bind(':password', $password);
-        $result = $this->db->execute();
-        $result == 1 ? $this->status = "success" : $this->status = "error";
-        $this->showResult();
+        $row = $this->db->single();
+        if($row){
+            $this->status = "success";
+            $this->showResult(); 
+        }
     }
 
 }

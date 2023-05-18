@@ -14,7 +14,6 @@ function init(){
 }
 function check_data(){
     if(err.textContent != ""){
-        console.log(err.textContent)
         $(".login-card-error").hide()
     }
     if(login.length < 5 ){
@@ -54,10 +53,9 @@ button.addEventListener("submit",function (event){
                 password : pass_1,
             }, success: function(data){
                 try {
-                    var output = JSON.parse(data);
-                    console.log(output);
+                    window.location.replace("../pages/todo.html");
                 } catch (e) {
-                    console.log("Output is not valid JSON: " + data);
+                    alert("User already exist.");
                 }
              },error: function(XMLHttpRequest, textStatus, errorThrown) {
                  console.log("Status: " + textStatus); console.log("Error: " + errorThrown);
