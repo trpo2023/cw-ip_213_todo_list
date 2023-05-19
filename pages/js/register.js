@@ -53,7 +53,8 @@ button.addEventListener("submit",function (event){
                 password : pass_1,
             }, success: function(data){
                 try {
-                    localStorage.setItem('id', data.id)
+                    localStorage.setItem('id', data.id);
+                    console.log(data.id);
                     window.location.replace("../pages/todo.html");
                 } catch (e) {
                     alert("User already exist.");

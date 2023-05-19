@@ -14,7 +14,7 @@ window.onload = () => {
     },
     success: function (data) {
         todoItems = data;
-        console.log(todoItems)
+        console.log(data.id);
         render();
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -40,7 +40,7 @@ todoInput.onkeyup = (e) => {
 // Add todo
 function addTodo(text) {
   todoItems.push({
-    id: Date.now(),
+    id_user: localStorage.getItem("id"),
     text: text,
     completed: false,
   });
@@ -80,6 +80,24 @@ function markAsUncompleted(id) {
 
 function save() {
   localStorage.setItem("todoItems", JSON.stringify(todoItems));
+  for(let i = 0;i < todoItems.length;i++){
+  $.ajax({
+    url: "../server/task/add",
+    type: "POST",
+    dataType: "json",
+    data: {
+      user_id : localStorage.getItem("id"),
+      text : todoItems[i].text, 
+    },
+    success: function (data) {
+        console.log(data);
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      console.log("Status: " + textStatus);
+      console.log("Error: " + errorThrown);
+    },
+  });
+}
 }
 
 function render() {
