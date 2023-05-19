@@ -19,19 +19,18 @@ class Model_Task extends Model
     function add_task(){
         $user_id = $_POST["user_id"];
         $text = $_POST["text"];
-        $today = date("m.d.y");
-        $this->db->query("INSERT INTO tasks(text, date) VALUES (:text, :date)"); //date??
+        $today = date('Y-m-d H:i:s');
+        $this->db->query("INSERT INTO tasks (text, date) VALUES (:text, :date)"); //date??
         $this->db->bind(':text',  $text);
         $this->db->bind(':date',  $today);
         $result = $this->db->execute();
-        echo json_encode($result);
-        die();
-        $this->db->query("SELECT id FROM `tasks` WHERE id_user = ");
-        $this->db->bind(':id',  $user_id);
+        $this->db->query("SELECT id FROM tasks ORDER BY id DESC"); //date??
+        $id = $this->db->single();
         $this->db->query("INSERT INTO user_task(id_user, id_task) VALUES (:user_id, :id)"); 
         $this->db->bind(':user_id',  $user_id); //user_id
         $this->db->bind(':id',  $id); //task_id
         $result = $this->db->execute();
+        
     }
 
     function action_delete(){

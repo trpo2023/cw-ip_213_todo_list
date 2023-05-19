@@ -4,7 +4,7 @@ class Database
 {
     public function __construct()
     {
-        $this->db = new PDO('mysql:host=localhost;dbname=app;charset=utf8', 'root', '');
+        $this->db = new PDO('mysql:host=localhost;dbname=app;charset=utf8', 'root', 'root');
     }
     
     private function __clone()
