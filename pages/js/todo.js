@@ -1,4 +1,5 @@
 let todoItems = []; // Тут наши Тудушки
+let newTodoItems = []; //Новые тудушки
 const todoInput = document.querySelector(".todo-input");
 const completedTodosDiv = document.querySelector(".completed-todos");
 const uncompletedTodosDiv = document.querySelector(".uncompleted-todos");
@@ -13,11 +14,12 @@ window.onload = () => {
       id: userId,
     },
     success: function (data) {
-        todoItems = data;
-        console.log(data.id);
+        todoItems = data;  
+        console.log(todoItems);
         render();
     },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
+    error: function (XMLHttpRequest, textStatus, errorThrown,data) {
+      console.log(data);
       console.log("Status: " + textStatus);
       console.log("Error: " + errorThrown);
     },
@@ -39,71 +41,131 @@ todoInput.onkeyup = (e) => {
 
 // Add todo
 function addTodo(text) {
-  todoItems.push({
+  newTodoItems.push({
     id_user: localStorage.getItem("id"),
     text: text,
     completed: false,
   });
 
-  console.log(todoItems); // Проверяем, что в массив поступили значения
+
+   // Проверяем, что в массив поступили значения
 
   saveAndRender();
 }
 
 function removeTodo(id) {
-  todoItems = todoItems.filter((todo) => todo.id !== Number(id));
-  saveAndRender();
+  
+  $.ajax({
+    url: "../server/task/delete",
+    type: "POST",
+    dataType: "json",
+    data: {
+      delete_id:id
+    },
+    success: function (data) {
+      todoItems = todoItems.filter((todo) => todo.id !== (data));
+      console.log(typeof(data));
+      render();
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown,data) {
+      console.log(data);
+      console.log("Status: " + textStatus);
+      console.log("Error: " + errorThrown);
+    },
+  });
 }
 
 function markAsCompleted(id) {
-  todoItems = todoItems.filter((todo) => {
-    if (todo.id === Number(id)) {
-      todo.completed = true;
-    }
-    return todo;
+  $.ajax({
+    url: "../server/task/update",
+    type: "POST",
+    dataType: "json",
+    data: {
+      update_id:id,
+      status: 0,
+    },
+    success: function (data) {
+      todoItems = todoItems.filter((todo) => {
+        if (todo.id === (data)) {
+          todo.done = 0;
+        }
+        return todo;
+      });
+      console.log(typeof(data));
+      render();
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown,data) {
+      console.log(data);
+      console.log("Status: " + textStatus);
+      console.log("Error: " + errorThrown);
+    },
   });
-
-  saveAndRender();
 }
 
 function markAsUncompleted(id) {
-  todoItems = todoItems.filter((todo) => {
-    if (todo.id === Number(id)) {
-      todo.completed = false;
-    }
+  $.ajax({
+    url: "../server/task/update",
+    type: "POST",
+    dataType: "json",
+    data: {
+      update_id:id,
+      status: 1,
+    },
+    success: function (data) {
+      todoItems = todoItems.filter((todo) => {
+        if (todo.id === Number(data)) {
+          todo.done = 1;
 
-    return todo;
+        }
+        return todo;
+      });
+      console.log(typeof(data));
+      render();
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown,data) {
+      console.log(data);
+      console.log("Status: " + textStatus);
+      console.log("Error: " + errorThrown);
+    },
   });
-
-  saveAndRender();
 }
 
 function save() {
   localStorage.setItem("todoItems", JSON.stringify(todoItems));
-  for(let i = 0;i < todoItems.length;i++){
+  let id;
   $.ajax({
     url: "../server/task/add",
     type: "POST",
     dataType: "json",
     data: {
       user_id : localStorage.getItem("id"),
-      text : todoItems[i].text, 
+      text : newTodoItems[0].text, 
     },
     success: function (data) {
-        console.log(data);
+      todoItems.push({
+        id_user: localStorage.getItem("id"),
+        id_task:data.id,
+        id: data.id,
+        text:data.text,
+        date:data.date,
+        done : data.done
+      });
+      render();
     },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
+    error: function (XMLHttpRequest, textStatus, errorThrown,data) {
+      console.log(data);
       console.log("Status: " + textStatus);
       console.log("Error: " + errorThrown);
     },
   });
-}
+
+  newTodoItems.pop()
 }
 
 function render() {
   let unCompletedTodos = todoItems.filter((item) => item.done == "0");
   let completedTodos = todoItems.filter((item) => item.done == "1");
-
+  console.log(todoItems);
   completedTodosDiv.innerHTML = "";
   uncompletedTodosDiv.innerHTML = "";
 

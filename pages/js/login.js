@@ -22,7 +22,8 @@ button.addEventListener("submit",function (event){
             }, success: function(data){
                 try {
                     localStorage.setItem('id', data.id);
-                    console.log(data.id);
+
+                    console.log(data);
                     window.location.replace("../pages/todo.html");
                 } catch (e) {
                     console.log("Account doesn't exist");
