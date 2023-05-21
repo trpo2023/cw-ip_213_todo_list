@@ -6,8 +6,9 @@ class Model_User extends Model
     private $status;
     private $error;
     private $id;
-    public function __construct(Type $var = null) {
-        $this->db = new Database();
+    public function __construct($include = true) {
+        if ($include)
+            $this->db = new Database();
     }
 
     private function showResult()
@@ -39,10 +40,16 @@ class Model_User extends Model
         }
     }
 
+    function preparePswd($pas){
+        $preparepswd = md5(htmlspecialchars($pas));
+        return $preparepswd;
+    }
+
     function register()
     {
         $login = $_POST["login"];
-        $password = md5($_POST["password"]);
+        $pas = $_POST["password"];
+        $password = $this->preparePswd($pas);
         $valLogin = $this->validateLogin($login);
 
         $this->db->query("INSERT INTO users (login, password) VALUES (:login, :password)");
@@ -64,7 +71,8 @@ class Model_User extends Model
     function login()
     {
         $login = htmlspecialchars($_POST["login"]);
-        $password = md5($_POST["password"]);
+        $pas = $_POST["password"];
+        $password = preparePswd($pas);
         $this->db->query("SELECT id from users WHERE login = :login and password = :password");
         $this->db->bind(':login', $login);
         $this->db->bind(':password', $password);
@@ -75,5 +83,4 @@ class Model_User extends Model
             $this->showResult(); 
         }
     }
-
 }
