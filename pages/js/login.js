@@ -21,6 +21,8 @@ button.addEventListener("submit",function (event){
                 password : pass,
             }, success: function(data){
                 try {
+                    localStorage.setItem('id', data.id);
+
                     console.log(data);
                     window.location.replace("../pages/todo.html");
                 } catch (e) {

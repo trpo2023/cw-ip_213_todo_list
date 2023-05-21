@@ -44,6 +44,7 @@ class Model_User extends Model
         $login = $_POST["login"];
         $password = md5($_POST["password"]);
         $valLogin = $this->validateLogin($login);
+
         $this->db->query("INSERT INTO users (login, password) VALUES (:login, :password)");
         $this->db->bind(':login', $valLogin);
         $this->db->bind(':password', $password);

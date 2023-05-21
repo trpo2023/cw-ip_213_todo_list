@@ -4,7 +4,7 @@ class Database
 {
     public function __construct()
     {
-        $this->db = new PDO('mysql:host=localhost;dbname=app;charset=utf8', 'root', 'root');
+        $this->db = new PDO('mysql:host=localhost;dbname=app;charset=utf8', 'root', '');
     }
     
     private function __clone()
@@ -31,7 +31,7 @@ class Database
     function resultset()
     {
         $this->stmt->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->stmt->fetchall(PDO::FETCH_ASSOC);
     }
     function execute()
     {
