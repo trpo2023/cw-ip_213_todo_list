@@ -3,12 +3,18 @@ include 'app/models/model_database.php';
 
 class Model_Task extends Model
 {
-    public function __construct(Type $var = null) {
-        $this->db = new Database();
+    public function __construct($include = true) {
+        if ($include)
+            $this->db = new Database();
+    }
+
+    function prepare($data){
+        $preparedata = htmlspecialchars($data);
+        return $preparedata;
     }
 
     function initial_tasks(){ 
-        $user_id = $_POST["id"];
+        $user_id = $this->prepare($_POST["id"]);
         $this->db->query("SELECT * FROM `user_task` JOIN tasks ON user_task.id_task = tasks.id WHERE user_task.id_user = :id;");
         $this->db->bind(':id',  $user_id);
         $result = $this->db->resultset();
@@ -18,8 +24,8 @@ class Model_Task extends Model
     }
 
     function add_task(){
-        $user_id = $_POST["user_id"];
-        $text = $_POST["text"];
+        $user_id = $this->prepare($_POST["user_id"]);
+        $text = $this->prepare($_POST["text"]);
         // $text = json_decode($_POST['text'], true);
         $today = date('Y-m-d H:i:s');
         $this->db->query("INSERT INTO tasks (text, date) VALUES (:text, :date)"); //date??
