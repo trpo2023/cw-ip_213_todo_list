@@ -31,7 +31,7 @@ class Database
     function resultset()
     {
         $this->stmt->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->stmt->fetchall(PDO::FETCH_ASSOC);
     }
     function execute()
     {

@@ -11,4 +11,9 @@ class Controller_User extends Controller
     {
         $this->model->register();
     }
+
+    function action_login()
+    {
+        $this->model->login();
+    }
 }
