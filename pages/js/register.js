@@ -12,6 +12,36 @@ function init(){
     pass_2 = document.getElementById("pass_2").value
     err = document.querySelector(".login-card-error")
 }
+
+function pass_1(){
+    let pass_1 = document.getElementById("pass_1").value
+
+   return pass_1;
+}
+module.exports = pass_1;
+
+function login(){
+    let login
+    login = document.getElementById("login").value
+    if(login.length < 5 ){
+    return false;
+    }
+    return true
+ }
+ module.exports = pass_2;
+
+function pass_2(){
+    let pass_2 = document.getElementById("pass_2").value
+
+   return pass_2;
+}
+module.exports = pass_2;
+
+function check_pass_diff(){
+    return pass_1 !== pass_2;
+}
+module.exports = check_pass_diff;
+
 function check_data(){
     if(err.textContent != ""){
         $(".login-card-error").hide()
@@ -33,6 +63,7 @@ function check_data(){
     }
     return 1;
 }
+
 button.addEventListener("submit",function (event){
     event.preventDefault()
     init()
