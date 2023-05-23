@@ -1,0 +1,13 @@
+name: Build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build application
+        run: cd server/app/test/ && php phpunit-10.1.phar model_user_test.php && cd ../../../
